@@ -1,14 +1,14 @@
 /*
- * Create a list that holds all of your cards
+ * List that holds all of the cards
  */
-
+const gameCard = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o",
+ "fa fa-anchor", "fa fa-anchor", "fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube",
+ "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb"];
+/*
 
 /*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+*/
+ 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
