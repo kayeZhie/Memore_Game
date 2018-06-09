@@ -1,14 +1,58 @@
 /*
  * List that holds all of the cards
  */
-const gameCard = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o",
+const gameCards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o",
  "fa fa-anchor", "fa fa-anchor", "fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube",
  "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb"];
-/*
+
+ /*
+ *This is the class value for the card container
+ */
+const cardsContainer = document.querySelector(".deck");
 
 /*
+*To compare the clicked card (it saves in an array)
 */
- 
+let openedCards =[];
+
+/*
+after creating the class value, we use appendchild to show the gameCards
+*/
+for(let i = 0; i < gameCards.length; i++){
+    const card = document.createElement("li");
+    card.classList.add("card");
+    card.innerHTML = "<i class='" + gameCards[i] + "'</i>";
+    cardsContainer.appendChild(card);
+/*
+*Added click event listener 
+*/
+    card.addEventListener("click", function() {
+  
+    //match cards//
+    if(openedCards.length === 1) {
+
+        card.classList.add("open", "show");
+        openedCards.push(this);
+    
+    //compare two opened cards//
+    if(this.innerHTML === openedCards[0].innerHTML){
+        console.log("Matched!");
+    } else {
+    //card doesn't match//
+        console.log("Doesn't match!");
+    }
+     
+     /*this is where you stopped 25.59*/  
+        card.classList.add("open", "show");
+        openedCards.push(this);
+    }
+
+    card.classList.add("open", "show");
+    openedCards.push(this);
+    });
+} 
+
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
