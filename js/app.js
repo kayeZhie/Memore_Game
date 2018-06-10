@@ -1,62 +1,248 @@
 /*
- * List that holds all of the cards
+ * Create a list that holds all of your cards
  */
-const gameCards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o",
- "fa fa-anchor", "fa fa-anchor", "fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube",
- "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb"];
+const gameCards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-anchor", "fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube", "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb"];
 
- /*
- *This is the class value for the card container
- */
 const cardsContainer = document.querySelector(".deck");
 
-/*
-*To compare the clicked card (it saves in an array)
-*/
-let openedCards =[];
+let openedCards = [];
+let matchedCards = [];
+let allCards = shuffle(gameCards);
 
 /*
-after creating the class value, we use appendchild to show the gameCards
-*/
-for(let i = 0; i < gameCards.length; i++){
-    const card = document.createElement("li");
-    card.classList.add("card");
-    card.innerHTML = "<i class='" + gameCards[i] + "'</i>";
-    cardsContainer.appendChild(card);
-/*
-*Added click event listener 
-*/
-    card.addEventListener("click", function() {
-  
-    //match cards//
-    if(openedCards.length === 1) {
+ * Creating the game
+ */
 
-        card.classList.add("open", "show");
-        openedCards.push(this);
+function init() {
+    for(let i = 0; i < gameCards.length; i++) {
+        const card = document.createElement("li");
+        card.classList.add("card");
+        card.innerHTML = "<i class='" + gameCards[i] + "'</i>";
+        cardsContainer.appendChild(card);
     
-    //compare two opened cards//
-    if(this.innerHTML === openedCards[0].innerHTML){
-        console.log("Matched!");
-    } else {
-    //card doesn't match//
-        console.log("Doesn't match!");
+// Add Click Event to each Card
+        click(card);
     }
-     
-     /*this is where you stopped 25.59*/  
-        card.classList.add("open", "show");
-        openedCards.push(this);
-    }
+}
 
-    card.classList.add("open", "show");
-    openedCards.push(this);
+
+/*
+ * Click Event
+ */
+
+// First Click Indicator
+let firstClick = true;
+
+function click(card) {
+
+// Card Click Event
+    card.addEventListener("click", function() {
+
+        if(firstClick) {
+// Start our timer
+            startTimer();
+// Change our First Click indicator's value
+            firstClick = false;
+        }
+        
+        const currentCard = this;
+        const previousCard = openedCards[0];
+
+//OPENED card
+        if(openedCards.length === 1) {
+
+            card.classList.add("open", "show", "disable");
+            openedCards.push(this);
+
+// We should compare our 2 opened cards!
+        compare(currentCard, previousCard);
+
+        } else {
+// We don't have any opened cards
+            currentCard.classList.add("open", "show", "disable");
+            openedCards.push(this);
+        }
+        
     });
-} 
+}
 
 
+/*
+ * Compare the 2 cards
+ */
+function compare(currentCard, previousCard) {
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+// Matcher
+    if(currentCard.innerHTML === previousCard.innerHTML) {
+                
+// Matched
+        currentCard.classList.add("match");
+        previousCard.classList.add("match");
+
+        matchedCards.push(currentCard, previousCard);
+
+        openedCards = [];
+
+// Check if the game is over!
+        isOver();
+
+    } else {
+        
+        setTimeout(function() {
+            currentCard.classList.remove("open", "show", "disable");
+            previousCard.classList.remove("open", "show", "disable");
+            
+        }, 200);
+
+        openedCards = [];
+        
+    }
+
+// Add New Move
+    addMove();
+}
+
+/*
+ * Check if the game is over!
+ */
+function isOver() {
+    if(matchedCards.length === gameCards.length) {
+
+        stopTimer();
+
+        alert("You Win! Congratulations!");
+        
+    }
+}
+
+/*
+ * Add move
+ */
+
+const movesContainer = document.querySelector(".moves");
+let moves = 0;
+movesContainer.innerHTML = 0;
+function addMove() {
+    moves++;
+    movesContainer.innerHTML = moves;
+
+// Set the rating
+    rating();
+}
+
+/*
+ * Rating
+ */
+const starsContainer = document.querySelector(".stars");
+const star = `<li><i class="fa fa-star"></i></li>`;
+starsContainer.innerHTML = star + star + star;
+function rating() {
+
+    if( moves < 10) {
+        starsContainer.innerHTML = star + star + star;
+    } else if( moves < 15) {
+        starsContainer.innerHTML = star + star;
+    } else {
+        starsContainer.innerHTML = star;
+    }
+}
+
+
+/*
+ * Timer
+ */
+const timerContainer = document.querySelector(".timer");
+let liveTimer,
+    totalSeconds = 0;
+
+// Set the default value to the timer's container
+timerContainer.innerHTML = totalSeconds + 's';
+
+/*
+ * We call this function to start our function, 
+ * the totalSeconds will be increased 
+ * by 1 after 1000ms (1 second!)
+ * 
+ * HINT: We need to call this function ONCE, and the best time to call it
+ * is when the user click on a card (The first card!)
+ * This means that our user is start playing now! ;)
+ */
+ function startTimer() {
+    liveTimer = setInterval(function() {
+// Increase the totalSeconds by 1
+        totalSeconds++;
+// Update the HTML Container with the new time
+        timerContainer.innerHTML = totalSeconds + 's';
+    }, 1000);
+}
+
+/*
+ * Our timer won't stop. To stop it, we should clearInterval!
+ * We will call it when the game is over.
+ * So, we will call it at the end of `isOver` function
+ * 
+ * HINT: That's why I created the `liveTimer` variable, 
+ * to store the setInterval's function, so that we can stop it by its name!
+ */
+function stopTimer() {
+    clearInterval(liveTimer);
+}
+
+/*
+ * Restart Button
+ */
+
+const restartBtn = document.querySelector(".restart");
+    restartBtn.addEventListener("click", function() {
+// Delete ALL cards
+    cardsContainer.innerHTML = "";
+
+// Call `init` to create new cards
+init();
+
+// Reset the game
+reset();
+
+});
+
+
+/*
+ * Reset All Game Variables
+ */
+function reset() {
+    matchedCards = [];
+
+/*
+ *moves
+ */
+    moves = 0;
+    movesContainer.innerHTML = moves;
+
+/*
+ *Reset rating
+ */
+    starsContainer.innerHTML = star + star + star;
+
+/*
+* Reset the `timer`
+*/
+stopTimer();
+    isFirstClick = true;
+    totalSeconds = 0;
+    timerContainer.innerHTML = totalSeconds + "s";
+}
+
+
+/*
+ *Start the game for the first time!
+ */
+init();
+
+/*
+ *Shuffle function from http://stackoverflow.com/a/2450976
+ */
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -68,28 +254,3 @@ function shuffle(array) {
 
     return array;
 }
-
-var count = 5;
-function moveCounter(bool) {
-	if(bool === true){
-		count++;
-	}
-	else if(bool === false){
-		count--;
-	}
-}
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-//flipping cards
-
-//match cards
