@@ -1,7 +1,10 @@
 /*
  * Create a list that holds all of your cards
  */
-const gameCards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-anchor", "fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube", "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb"];
+const gameCards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", 
+"fa fa-paper-plane-o", "fa fa-anchor", "fa fa-anchor", 
+"fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube", "fa fa-leaf", "fa fa-leaf", 
+"fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb"];
 
 const cardsContainer = document.querySelector(".deck");
 
@@ -20,12 +23,10 @@ function init() {
         card.innerHTML = "<i class='" + gameCards[i] + "'</i>";
         cardsContainer.appendChild(card);
     
-// Add Click Event to each Card
+//Click Event to each Card
         click(card);
     }
 }
-
-
 /*
  * Click Event
  */
@@ -58,7 +59,7 @@ function click(card) {
         compare(currentCard, previousCard);
 
         } else {
-// We don't have any opened cards
+// no open cards yet
             currentCard.classList.add("open", "show", "disable");
             openedCards.push(this);
         }
@@ -66,10 +67,10 @@ function click(card) {
     });
 }
 
-
 /*
  * Compare the 2 cards
  */
+
 function compare(currentCard, previousCard) {
 
 // Matcher
@@ -158,32 +159,14 @@ let liveTimer,
 // Set the default value to the timer's container
 timerContainer.innerHTML = totalSeconds + 's';
 
-/*
- * We call this function to start our function, 
- * the totalSeconds will be increased 
- * by 1 after 1000ms (1 second!)
- * 
- * HINT: We need to call this function ONCE, and the best time to call it
- * is when the user click on a card (The first card!)
- * This means that our user is start playing now! ;)
- */
+//timer start when user first click
  function startTimer() {
     liveTimer = setInterval(function() {
-// Increase the totalSeconds by 1
         totalSeconds++;
-// Update the HTML Container with the new time
         timerContainer.innerHTML = totalSeconds + 's';
     }, 1000);
 }
 
-/*
- * Our timer won't stop. To stop it, we should clearInterval!
- * We will call it when the game is over.
- * So, we will call it at the end of `isOver` function
- * 
- * HINT: That's why I created the `liveTimer` variable, 
- * to store the setInterval's function, so that we can stop it by its name!
- */
 function stopTimer() {
     clearInterval(liveTimer);
 }
