@@ -1,8 +1,7 @@
-<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Matching Game</title>
+    <title>Memory Game</title>
     <meta name="description" content="">
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
@@ -17,22 +16,81 @@
 
         <section class="score-panel">
             <ul class="stars">
-                
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
             </ul>
 
-            <span class="moves"></span> Moves
-            
-            <span class="timer"></span>
+            <span class="moves">0</span> Moves
+
+          <div id="timer">0</div>
 
             <div class="restart">
+              <button type="button" class="btn btn-info btn-sm">
                 <i class="fa fa-repeat"></i>
+            </button>
             </div>
         </section>
 
         <ul class="deck">
-            
+            <li class="card">
+                <i class="fa fa-diamond"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-fighter-jet"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-anchor"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-star-half-o"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-rocket"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-anchor"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-leaf"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-moon-o"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-diamond"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-bomb"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-leaf"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-bomb"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-star-half-o"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-moon-o"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-fighter-jet"></i>
+            </li>
+            <li class="card">
+                <i class="fa fa-rocket"></i>
+            </li>
         </ul>
     </div>
+    <div class="winPage closed">
+  <h1>Congratulations!</h1>
+  <p>You Won the Game with <span class="movesCount">0</span> Moves and <span class="starsCount">0</span> Stars.</p>
+  <p>Your time: <span class="finalTime"></span></p>
+  <p>Wanna play again?</p>
+  <button type="button" role="button" class="playAgain btn btn-info">Play again!</button>
+</div>
+</div>
 
     <script src="js/app.js"></script>
 </body>
