@@ -11,7 +11,7 @@
 </ul>
 
 <h2>Screenshot</h2>
-	<img src="img/preview.png" alt="gamePreview" width="80px">
+	<img src="img/preview.png" alt="gamePreview">
 
 <h2>External libraries Used</h2>
 <ul>
