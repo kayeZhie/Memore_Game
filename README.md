@@ -11,7 +11,7 @@
 </ul>
 
 <h2>Screenshot</h2>
-	<img src="preview.png">
+	<img src="img/preview.png">
 
 <h2>External libraries Used</h2>
 <ul>
